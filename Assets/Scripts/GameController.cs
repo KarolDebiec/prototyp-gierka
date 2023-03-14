@@ -4,18 +4,18 @@ using UnityEngine;
 using TMPro;
 public class GameController : MonoBehaviour
 {
-    public float startingSectionTime;
-    private float sectionTime;
-    public TextMeshProUGUI timeDisplay;
+    //public float startingSectionTime;
+    //private float sectionTime;
+    //public TextMeshProUGUI timeDisplay;
     public TextMeshProUGUI endDisplay;
     public bool sectionEnded;
     void Start()
     {
-        sectionTime = startingSectionTime;
+        //ectionTime = startingSectionTime;
     }
     void Update()
     {
-        if(!sectionEnded)
+        /*if(!sectionEnded)
         {
             sectionTime -= Time.deltaTime;
             timeDisplay.text = sectionTime.ToString("F1");
@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
             {
                 Lose();
             }
-        }
+        }*/
     }
     public void Lose()
     {

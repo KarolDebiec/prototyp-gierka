@@ -9,32 +9,45 @@ public class Player2Controller : MonoBehaviour
     public float jumpForce = 300;
     public Player1Controller player1Controller;
     public bool canJump = true;
+    public float maxSpeed;
 
     public float recoveryRate;
     public float maxVirusValue;
     private float virusValue;
     public bool isSick;
+
+    public int maxJumps;
+    private int jumps;
+
+    public Vector3 batteryPosition;
+    public BatteryController batteryController;
+    public bool haveBattery = false;
     //public TextMeshPro sickDisplay;
-    public Rigidbody rb;
+    private Rigidbody rb;
     public void Start()
     {
         rb = GetComponent<Rigidbody>();
-        ChangeToSmallSize();
+        //ChangeToSmallSize();
+        jumps = maxJumps;
         virusValue = maxVirusValue;
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && canJump)
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             //rb.MovePosition(transform.position + (Vector3.forward * speed * Time.deltaTime));
             //transform.Translate(Vector3.forward * speed * Time.deltaTime);
-            rb.AddForce(Vector3.up* jumpForce);
-            canJump = false;
+            //rb.AddForce(Vector3.up* jumpForce);
+            //canJump = false;
+            if (rb.velocity.z > -maxSpeed && rb.velocity.z < maxSpeed)
+            {
+                rb.AddForce(Vector3.forward * speed * Time.deltaTime);
+            }
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (rb.velocity.x > -20f && rb.velocity.x < 20f)
+            if (rb.velocity.x > -maxSpeed && rb.velocity.x < maxSpeed)
             {
                 rb.AddForce(Vector3.left * speed * Time.deltaTime);
             }
@@ -44,7 +57,7 @@ public class Player2Controller : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (rb.velocity.x > -20f && rb.velocity.x < 20f)
+            if (rb.velocity.x > -maxSpeed && rb.velocity.x < maxSpeed)
             {
                 rb.AddForce(Vector3.right * speed * Time.deltaTime);
             }
@@ -54,29 +67,62 @@ public class Player2Controller : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
+            if (rb.velocity.z > -maxSpeed && rb.velocity.z < maxSpeed)
+            {
+                rb.AddForce(Vector3.back * speed * Time.deltaTime);
+            }
             //rb.MovePosition(transform.position + (Vector3.back * speed * Time.deltaTime));
             //transform.Translate(Vector3.back * speed * Time.deltaTime);
         }
-       /* if (isSick)
+        if (Input.GetKeyDown(KeyCode.Keypad0) && canJump)
         {
-            virusValue -= Time.deltaTime;
-        }
-        else if (virusValue < maxVirusValue)
-        {
-            virusValue += Time.deltaTime * recoveryRate;
-            if (virusValue > maxVirusValue)
+            rb.AddForce(Vector3.up * jumpForce);
+            if(haveBattery)
             {
-                virusValue = maxVirusValue;
+                jumps--;
+                if (jumps < 1)
+                {
+                    canJump = false;
+                }
             }
-        }*/
-        if (Input.GetKeyDown(KeyCode.R) && isSick)
+            else
+            {
+                canJump = false;
+            }
+        }
+        /* if (isSick)
+         {
+             virusValue -= Time.deltaTime;
+         }
+         else if (virusValue < maxVirusValue)
+         {
+             virusValue += Time.deltaTime * recoveryRate;
+             if (virusValue > maxVirusValue)
+             {
+                 virusValue = maxVirusValue;
+             }
+         }*/
+        /*if (Input.GetKeyDown(KeyCode.R) && isSick)
         {
             isSick = false;
             player1Controller.isSick = true;
             player1Controller.ChangeToBigSize();
             ChangeToSmallSize();
+        }*/
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            if (batteryController.player2InRadius && !haveBattery)
+            {
+                batteryController.PickUpBattery(gameObject);
+                haveBattery = true;
+            }
+            else if (haveBattery)
+            {
+                batteryController.DropBattery(gameObject);
+                haveBattery = false;
+            }
         }
-       // sickDisplay.text = virusValue.ToString("F1") ;
+        // sickDisplay.text = virusValue.ToString("F1") ;
     }
     public void ChangeToSmallSize()
     {
@@ -91,6 +137,7 @@ public class Player2Controller : MonoBehaviour
         if (collision.transform.tag == "floor")
         {
             //Debug.Log("jebac disa");
+            jumps = maxJumps;
             canJump = true;
         }
     }

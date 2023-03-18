@@ -3288,7 +3288,7 @@ MonoBehaviour:
   player2: {fileID: 1498318118}
   offset: {x: -2, y: 6, z: -10}
   disMultiplier: 1
-  minDistance: 10
+  minDistance: 9
 --- !u!1 &1067061762
 GameObject:
   m_ObjectHideFlags: 0
@@ -5633,7 +5633,7 @@ MonoBehaviour:
   gameController: {fileID: 1685640057}
   player1Reached: 0
   player2Reached: 0
-  scenesAmount: 3
+  scenesAmount: 4
 --- !u!65 &1898552653
 BoxCollider:
   m_ObjectHideFlags: 0

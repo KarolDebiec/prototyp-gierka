@@ -29,5 +29,16 @@ public class SectionWin : MonoBehaviour
             
         }
     }
-    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "Player")
+        {
+            player1Reached = false;
+        }
+        if (other.transform.tag == "Player2")
+        {
+            player2Reached = false;
+        }
+    }
+
 }

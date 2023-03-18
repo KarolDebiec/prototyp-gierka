@@ -134,7 +134,7 @@ public class Player2Controller : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag == "floor")
+        if (collision.transform.tag == "floor" || collision.transform.tag == "Grabable")
         {
             //Debug.Log("jebac disa");
             jumps = maxJumps;
